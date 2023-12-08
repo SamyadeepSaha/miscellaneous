@@ -17,3 +17,6 @@ version2: version2.c
 
 insert_data: insert_data.c
 	${CC} -o $@ $< ${CFLAGS}
+
+last_row_id: last_row_id.c
+	${CC} -o $@ $< ${CFLAGS}
