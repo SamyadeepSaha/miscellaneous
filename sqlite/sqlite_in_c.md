@@ -61,11 +61,9 @@ need to separate this line into two lines.
 In the first code example, we will get the version of the SQLite
 database.
 
-::: codehead
-version.c
-:::
+==== version.c ====
 
-``` code
+``` c
 #include <sqlite3.h>
 #include <stdio.h>
 
