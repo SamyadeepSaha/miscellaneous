@@ -1,5 +1,9 @@
 # Makefile
 
+# Just edit filename before make
+BIN = calc
+SRC = calc.c
+
 # Complier
 CC = gcc
 
@@ -7,14 +11,11 @@ CC = gcc
 CFLAGS = `pkg-config --cflags gtk+-3.0`
 LIBS = `pkg-config --libs gtk+-3.0`
 
-all: main
-	@echo "Compile successful"
-
-main: main.c
+${BIN}: ${SRC}
 	${CC} ${CFLAGS} -o $@ $< ${LIBS}
 
-example-0: example-0.c
-	${CC} ${CFLAGS} -o $@ $< ${LIBS}
+run:
+	./${BIN}
 
 clean:
-	rm main example-0
+	rm ${BIN}
