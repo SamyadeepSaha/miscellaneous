@@ -61,7 +61,7 @@ need to separate this line into two lines.
 In the first code example, we will get the version of the SQLite
 database.
 
-==== version.c ====
+====version.c====
 
 ``` c
 #include <sqlite3.h>
