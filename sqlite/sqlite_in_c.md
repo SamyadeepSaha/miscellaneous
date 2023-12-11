@@ -49,7 +49,7 @@ This tutorial uses C99. For GNU C compiler, we need to use the
 `-std=c99` option. For Windows users, the Pelles C IDE is highly
 recommended. (MSVC does not support C99.)
 
-``` compact
+``` c
 int rc = sqlite3_open("test.db", &db);
 ```
 
