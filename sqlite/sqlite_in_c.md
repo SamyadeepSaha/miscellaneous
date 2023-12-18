@@ -78,7 +78,7 @@ int main(void) {
 The `sqlite3_libversion` function returns a string indicating the SQLite
 library.
 
-``` explanation
+``` c
 #include <sqlite3.h>
 ```
 This header file defines the interface that the SQLite library presents
@@ -101,11 +101,9 @@ This is the output of the example.
 In the second example, we again get the version of the SQLite database.
 This time we will use an SQL query.
 
-::: codehead
-version2.c
-:::
+### version2.c
 
-``` code
+``` c
 #include <sqlite3.h>
 #include <stdio.h>
 
@@ -150,20 +148,20 @@ int main(void) {
 The `SQLITE_VERSION` query is used to get the version of the SQLite
 library.
 
-``` explanation
+``` c
 sqlite3 *db;
 ```
 
 The `sqlite3` structure defines a database handle. Each open SQLite
 database is represented by a database handle.
 
-``` explanation
+``` c
 sqlite3_stmt *res;
 ```
 
 The `sqlite3_stmt` structure represents a single SQL statement.
 
-``` explanation
+``` c
 int rc = sqlite3_open(":memory:", &db);
 ```
 
@@ -174,7 +172,7 @@ database. The function\'s return code indicates whether the database was
 successfully opened. The `SQLITE_OK` is returned when the connection was
 successfully established.
 
-``` explanation
+``` c
 if (rc != SQLITE_OK) {
     
     fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
@@ -191,7 +189,7 @@ not an error occurs when it is opened, resources associated with the
 database connection handle should be released by passing it to
 `sqlite3_close` function.
 
-``` explanation
+``` c
 rc = sqlite3_prepare_v2(db, "SELECT SQLITE_VERSION()", -1, &res, 0);
 ```
 
@@ -217,7 +215,7 @@ important for us.
 On success, `sqlite3_prepare_v2` returns `SQLITE_OK`; otherwise an error
 code is returned.
 
-``` explanation
+``` c
 if (rc != SQLITE_OK) {
     
     fprintf(stderr, "Failed to fetch data: %s\n", sqlite3_errmsg(db));
@@ -229,7 +227,7 @@ if (rc != SQLITE_OK) {
 
 This is error handling code for the `sqlite3_prepare_v2` function call.
 
-``` explanation
+``` c
 rc = sqlite3_step(res);
 ```
 
@@ -237,13 +235,13 @@ The `sqlite3_step` runs the SQL statement. `SQLITE_ROW` return code
 indicates that there is another row ready. Our SQL statement returns
 only one row of data, therefore, we call this function only once.
 
-``` explanation
+``` c
 sqlite3_finalize(res);
 ```
 
 The `sqlite3_finalize` function destroys the prepared statement object.
 
-``` explanation
+``` c
 sqlite3_close(db);
 ```
 
@@ -253,11 +251,9 @@ The `sqlite3_close` function closes the database connection.
 
 We create a `Cars` table and insert several rows to it.
 
-::: codehead
-insert_data.c
-:::
+### insert_data.c
 
-``` code
+``` c
 #include <sqlite3.h>
 #include <stdio.h>
 
@@ -308,19 +304,19 @@ int main(void) {
 We connect to the `test.db` database, create a `Cars` table, and insert
 8 rows into the created table.
 
-``` explanation
+``` c
 char *err_msg = 0;
 ```
 
 If an error occurs, this pointer will point a the created error message.
 
-``` explanation
+``` c
 int rc = sqlite3_open("test.db", &db);
 ```
 
 The connection to the `test.db` database is created.
 
-``` explanation
+``` c
 char *sql = "DROP TABLE IF EXISTS Cars;" 
             "CREATE TABLE Cars(Id INT, Name TEXT, Price INT);" 
             "INSERT INTO Cars VALUES(1, 'Audi', 52642);" 
@@ -336,7 +332,7 @@ char *sql = "DROP TABLE IF EXISTS Cars;"
 These SQL statements create a `Cars` table and fill it with data. The
 statements must be separated by semicolons.
 
-``` explanation
+``` c
 rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
 ```
 
@@ -353,7 +349,7 @@ need them, we can pass 0 to these parameters.
 If an error occurs then the last parameter points to the allocated error
 message.
 
-``` explanation
+``` c
 sqlite3_free(err_msg);
 ```
 
@@ -390,11 +386,9 @@ This is the data that we have written to the `Cars` table.
 Sometimes, we need to determine the id of the last inserted row. For
 this, we have the `sqlite3_last_insert_rowid` function.
 
-::: codehead
-last_row_id.c
-:::
+### last_row_id.c
 
-``` code
+``` c
 #include <sqlite3.h>
 #include <stdio.h>
 
@@ -446,7 +440,7 @@ int main(void) {
 A `Friends` table is created in memory. Its `Id` column is automatically
 incremented.
 
-``` explanation
+``` c
 char *sql = "CREATE TABLE Friends(Id INTEGER PRIMARY KEY, Name TEXT);"
 "INSERT INTO Friends(Name) VALUES ('Tom');"
 "INSERT INTO Friends(Name) VALUES ('Rebecca');"
@@ -463,7 +457,7 @@ Id creation is used.
 When using auto-incremented columns, we need to explicitly state the
 column names except for the auto-incremented column, which is omitted.
 
-``` explanation
+``` c
 int last_id = sqlite3_last_insert_rowid(db);
 printf("The last Id of the inserted row is %d\n", last_id);
 ```
@@ -484,11 +478,9 @@ We see the output of the program.
 We have inserted some data into the `test.db` database. In the following
 example, we retrieve the data from the database.
 
-::: codehead
-select_all.c
-:::
+### select_all.c
 
-``` code
+``` c
 #include <sqlite3.h>
 #include <stdio.h>
 
@@ -551,27 +543,27 @@ int callback(void *NotUsed, int argc, char **argv,
 We use the `SELECT * FROM Cars` SQL statement to retrieve all rows from
 the `Cars` table.
 
-``` explanation
+``` c
 int callback(void *, int, char **, char **);
 ```
 
 This is a function prototype for the callback function that is used in
 conjunction with the `sqlite3_exec` function.
 
-``` explanation
+``` c
 int rc = sqlite3_open("test.db", &db);
 ```
 
 We connect to the `test.db` database.
 
-``` explanation
+``` c
 char *sql = "SELECT * FROM Cars";
 ```
 
 Here we define the SQL statement to select all data from the `Cars`
 table.
 
-``` explanation
+``` c
 rc = sqlite3_exec(db, sql, callback, 0, &err_msg);
 ```
 
@@ -579,7 +571,7 @@ The `sqlite3_exec` function evalues the SQL statement. Its callback
 function is invoked for each result row coming out of the evaluated SQL
 statement.
 
-``` explanation
+``` c
 int callback(void *NotUsed, int argc, char **argv, 
                     char **azColName) {
     
@@ -630,11 +622,9 @@ called prepared statements, increase security and performance. When we
 use parameterized queries, we use placeholders instead of directly
 writing the values into the statements.
 
-::: codehead
-parameterized.c
-:::
+### parameterized.c
 
-``` code
+``` c
 #include <sqlite3.h>
 #include <stdio.h>
 
@@ -685,19 +675,19 @@ int main(void) {
 In the example, a question mark (?) is used as a placeholder which is
 later replaced with an actual value.
 
-``` explanation
+``` c
 char *sql = "SELECT Id, Name FROM Cars WHERE Id = ?";
 ```
 
 The question mark is used to provide an Id to the SQL query.
 
-``` explanation
+``` c
 rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
 ```
 
 The `sqlite3_prepare_v2` function compiles the SQL query.
 
-``` explanation
+``` c
 sqlite3_bind_int(res, 1, 3);
 ```
 
@@ -706,13 +696,13 @@ The placeholder is replaced with integer value 3. The function\'s second
 parameter is the index of the SQL parameter to be set and the third
 parameter is the value to bind to the parameter.
 
-``` explanation
+``` c
 int step = sqlite3_step(res);
 ```
 
 The `sqlite3_step` function evaluates the SQL statement.
 
-``` explanation
+``` c
 if (step == SQLITE_ROW) {
     
     printf("%s: ", sqlite3_column_text(res, 0));
@@ -734,11 +724,9 @@ The example returns the Id and the car\'s name.
 The second example uses parameterized statements with named
 placeholders.
 
-::: codehead
-named_placeholders.c
-:::
+### named_placeholders.c
 
-``` code
+``` c
 #include <sqlite3.h>
 #include <stdio.h>
 
@@ -791,14 +779,14 @@ int main(void) {
 
 We select the name and the price of a car using named placeholders.
 
-``` explanation
+``` c
 char *sql = "SELECT Id, Name FROM Cars WHERE Id = @id";
 ```
 
 Named placeholders are prefixed with the colon (:) character or the
 at-sign (@) character.
 
-``` explanation
+``` c
 int idx = sqlite3_bind_parameter_index(res, "@id");
 ```
 
@@ -819,11 +807,9 @@ sqlite> CREATE TABLE Images(Id INTEGER PRIMARY KEY, Data BLOB);
 For this example, we create a new table called Images. For the images,
 we use the `BLOB` data type, which stands for Binary Large Objects.
 
-::: codehead
-insert_image.c
-:::
+### insert_image.c
 
-``` code
+``` c
 #include <sqlite3.h>
 #include <stdio.h>
 
@@ -951,7 +937,7 @@ int main(int argc, char **argv) {
 In this program, we read an image from the current working directory and
 write it into the `Images` table of the SQLite `test.db` database.
 
-``` explanation
+``` c
 FILE *fp = fopen("woman.jpg", "rb");
 
 if (fp == NULL) {
@@ -967,7 +953,7 @@ We read binary data from the filesystem. We have a JPG image called
 reading. It returns a pointer to a FILE object or NULL if the operation
 fails.
 
-``` explanation
+``` c
 fseek(fp, 0, SEEK_END);
 
 if (ferror(fp)) {
@@ -989,7 +975,7 @@ occurs, the error indicator is set. We check the indicator using the
 `fseek` function. In case of an error, the opened file handler is
 closed.
 
-``` explanation
+``` c
 int flen = ftell(fp);
 
 if (flen == -1) {
@@ -1011,13 +997,13 @@ of an error, the function returns -1 and the `errno` is set. The
 `perror` function interprets the value of errno as an error message, and
 prints it to the standard error output stream.
 
-``` explanation
+``` c
 char data[flen+1];
 ```
 
 This array will store the image data.
 
-``` explanation
+``` c
 int size = fread(data, 1, flen, fp);
 ```
 
@@ -1025,7 +1011,7 @@ The `fread` function reads the data from the file pointer and stores it
 in the data array. The function returns the number of elements
 successfully read.
 
-``` explanation
+``` c
 int r = fclose(fp);
 
 if (r == EOF) {
@@ -1035,19 +1021,19 @@ if (r == EOF) {
 
 After the data is read, we can close the file handler.
 
-``` explanation
+``` c
 char *sql = "INSERT INTO Images(Data) VALUES(?)";
 ```
 
 This SQL statement is used to insert the image into the database.
 
-``` explanation
+``` c
 rc = sqlite3_prepare(db, sql, -1, &pStmt, 0);
 ```
 
 The SQL statement is compiled.
 
-``` explanation
+``` c
 sqlite3_bind_blob(pStmt, 1, data, size, SQLITE_STATIC);
 ```
 
@@ -1055,7 +1041,7 @@ The `sqlite3_bind_blob` function binds the binary data to the compiled
 statement. The `SQLITE_STATIC` parameter means that the pointer to the
 content information is static and does not need to be freed.
 
-``` explanation
+``` c
 rc = sqlite3_step(pStmt);
 ```
 
@@ -1066,11 +1052,9 @@ The statement is executed and the image is written to the table.
 In this section, we are going to perform the reverse operation. We will
 read an image from the database table.
 
-::: codehead
-read_image.c
-:::
+### read_image.c
 
-``` code
+``` c
 #include <sqlite3.h>
 #include <stdio.h>
 
@@ -1149,7 +1133,7 @@ int main(void) {
 We read image data from the `Images` table and write it to another file,
 which we call `woman2.jpg`.
 
-``` explanation
+``` c
 FILE *fp = fopen("woman2.jpg", "wb");
 
 if (fp == NULL) {
@@ -1163,14 +1147,14 @@ if (fp == NULL) {
 We open a binary file in a writing mode. The data from the database is
 written to the file.
 
-``` explanation
+``` c
 char *sql = "SELECT Data FROM Images WHERE Id = 1";
 ```
 
 This SQL statement selects data from the Images table. We obtain the
 binary data from the first row.
 
-``` explanation
+``` c
 if (rc == SQLITE_ROW) {
 
     bytes = sqlite3_column_bytes(pStmt, 0);
@@ -1180,7 +1164,7 @@ if (rc == SQLITE_ROW) {
 The `sqlite3_column_bytes` function returns the number of bytes in the
 BLOB.
 
-``` explanation
+``` c
 fwrite(sqlite3_column_blob(pStmt, 0), bytes, 1, fp);
 ```
 
@@ -1188,7 +1172,7 @@ The binary data is written to the file with the `fwrite` function. The
 pointer to the selected binary data is returned by the
 `sqlite3_column_blob` function.
 
-``` explanation
+``` c
 if (ferror(fp)) {            
     
     fprintf(stderr, "fwrite() failed\n");
@@ -1213,11 +1197,9 @@ objects may have attributes, which are metadata. Finally, we can also
 obtain specific metatada from querying the SQLite system `sqlite_master`
 table.
 
-::: codehead
-column_names.c
-:::
+### column_names.c
 
-``` code
+``` c
 #include <sqlite3.h>
 #include <stdio.h>
 
@@ -1278,7 +1260,7 @@ int callback(void *NotUsed, int argc, char **argv,
 In this example, we issue the `PRAGMA table_info(tableName)` command, to
 get some metadata info about our `Cars` table.
 
-``` explanation
+``` c
 char *sql = "PRAGMA table_info(Cars)";
 ```
 
@@ -1303,11 +1285,9 @@ This is output of the example.
 In the next example related to the metadata, we will list all tables in
 the `test.db` database.
 
-::: codehead
-list_tables.c
-:::
+### list_tables.c
 
-``` code
+``` c
 #include <sqlite3.h>
 #include <stdio.h>
 
@@ -1368,7 +1348,7 @@ int callback(void *NotUsed, int argc, char **argv,
 The code example prints all available tables in the current database to
 the terminal.
 
-``` explanation
+``` c
 char *sql = "SELECT name FROM sqlite_master WHERE type='table'";
 ```
 
@@ -1407,11 +1387,9 @@ all operations associated with the current database connection complete.
 Autocommit mode is disabled by a `BEGIN` statement and re-enabled by a
 `COMMIT` or `ROLLBACK`.
 
-::: codehead
-get_ac_mode.c
-:::
+### get_ac_mode.c
 
-``` code
+``` c
 #include <sqlite3.h>
 #include <stdio.h>
 
@@ -1440,7 +1418,7 @@ int main() {
 
 This example check whether the database is in the autocommit mode.
 
-``` explanation
+``` c
 printf("Autocommit: %d\n", sqlite3_get_autocommit(db));
 ```
 
@@ -1459,11 +1437,9 @@ The next example further clarifies the autocommit mode. In the
 autocommit mode, each non-SELECT statement is a small transaction that
 is immediately committed.
 
-::: codehead
-autocommit.c
-:::
+### autocommit.c
 
-``` code
+``` c
 #include <sqlite3.h>
 #include <stdio.h>
 
@@ -1509,7 +1485,7 @@ int main(void) {
 
 We create the `Friends` table and try to fill it with data.
 
-``` explanation
+``` c
 char *sql = "DROP TABLE IF EXISTS Friends;" 
             "CREATE TABLE Friends(Id INTEGER PRIMARY KEY, Name TEXT);" 
             "INSERT INTO Friends(Name) VALUES ('Tom');" 
@@ -1538,11 +1514,9 @@ The table is created and three rows are inserted.
 
 In the next example, we put some SQL statements within a transaction.
 
-::: codehead
-transaction.c
-:::
+### transaction.c
 
-``` code
+``` c
 #include <sqlite3.h>
 #include <stdio.h>
 
@@ -1592,7 +1566,7 @@ int main(void) {
 
 We continue working with the `Friends` table.
 
-``` explanation
+``` c
 char *sql = "DROP TABLE IF EXISTS Friends;"
             "BEGIN TRANSACTION;" 
             "CREATE TABLE Friends(Id INTEGER PRIMARY KEY, Name TEXT);" 
