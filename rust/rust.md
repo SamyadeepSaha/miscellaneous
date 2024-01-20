@@ -28,3 +28,8 @@ Character types is four bytes in size and represents unicode scalar
 value, which means it can represents a lot than just ASCII. Accented
 letters, Chinese, Japanese and Korean, character emojis and zero-width
 spaces are all valid char values in Rust.
+
+## Functions
+
+Rust function definitions are also statements. And statements do not
+returns values. Which is different from language like C and Ruby.
