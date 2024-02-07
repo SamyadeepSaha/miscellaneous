@@ -25,11 +25,30 @@
 ### Character Types
 
 Character types is four bytes in size and represents unicode scalar
-value, which means it can represents a lot than just ASCII. Accented
-letters, Chinese, Japanese and Korean, character emojis and zero-width
-spaces are all valid char values in Rust.
+value, which means it can represents a lot than just ASCII.
+Accented letters, Chinese, Japanese and Korean, character
+emojis and zero-width spaces are all valid char values in
+Rust.
 
 ## Functions
 
-Rust function definitions are also statements. And statements do not
-returns values. Which is different from language like C and Ruby.
+Rust function definitions are also statements. And statements
+do not returns values. Which is different from language like
+C and Ruby.
+
+## Module System
+
+Rust has a number of features that allow you to manage your
+code's organization, including which details are exposed,
+which details are private, and what names are in each scope
+in your programs. These features, sometimes collectively
+referred to as the module system, include:
+
+- **Packages** A Cargo feature that lets you build, test,
+and shares crates.
+- **Crates** A tree of modules that produces a library or
+executable.
+- **Modules and use** Let you control the organization,
+scope, and privacy of paths.
+- **Paths** A way of naming an item, such as a struct,
+function, or module.
