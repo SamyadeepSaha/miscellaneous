@@ -63,3 +63,13 @@ scope with a use statement so you can use a shorter path for
 multiple uses of the item in that scope. Module code is
 private by default, but you can make definitions public by
 adding the pub keyword.
+
+## Strings
+
+Rust has only one string type in the core language, whice is
+the string slice str that is usually seen in its borrowed
+form &str. String slices are references to some UTF-8
+encoded string data stored elsewhere. The string type, which
+is provided nbyd Rust's standard library rather than coded
+into the core language, is a growable, mutable, owned, UTF-8
+encoded string type.
