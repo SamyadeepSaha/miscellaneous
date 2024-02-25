@@ -73,3 +73,16 @@ encoded string data stored elsewhere. The string type, which
 is provided nbyd Rust's standard library rather than coded
 into the core language, is a growable, mutable, owned, UTF-8
 encoded string type.
+
+## Error Handling
+
+### Propagating Errors
+
+When a function's implemantation calls something that fail,
+instead of handling the error within the function itself,
+you can return the error to the calling code so that it can
+decide what to do. This is known as *propagating* the error
+and gives more control to the calling code, where there
+might be more information or logic that dictates how the
+error should be handled than what what you have available in
+the context of your code.
