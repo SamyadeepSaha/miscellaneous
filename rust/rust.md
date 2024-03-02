@@ -86,3 +86,36 @@ and gives more control to the calling code, where there
 might be more information or logic that dictates how the
 error should be handled than what what you have available in
 the context of your code.
+
+## Generic Data Types
+
+We use generics to create definitions for items like function signatures
+or structs, which we can then use with many different concrete data
+types. Let's first look at how to define functions, structs, enums, and
+methods using generics. Then we'll discuss how generics affect code
+performance.
+
+### Enum Definitions
+
+``` rust
+enum Option<T> {
+    Some(T),
+    None,
+}
+
+enum Result<T, E> {
+    Ok(T),
+    Err(E),
+}
+```
+
+### Monomorphization
+
+Rust perform monomorphization of the code using generics at compile
+time. Monomorphization is the process of turning generic code into
+specific code by filling in the concrete types that are used when
+compiled. In this process, the compiler looks at all the places where
+generic code is called and generates code for the concrete types the
+generic code is called with. When the code runs, it performs just as it
+would if we had duplicated each definition by hand. The process of
+monomorphization makes Rust's generics extremely efficient at runtime.
