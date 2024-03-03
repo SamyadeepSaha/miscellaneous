@@ -119,3 +119,11 @@ generic code is called and generates code for the concrete types the
 generic code is called with. When the code runs, it performs just as it
 would if we had duplicated each definition by hand. The process of
 monomorphization makes Rust's generics extremely efficient at runtime.
+
+## Traits
+
+A trait defines the functionality a particular type has and share with
+other types. We can use traits to define shared behavior in an abstract
+way. We can use *trait bounds* to specify ttat a generic type can be any
+type that has certain behaviou. Traits are similar to a feature often
+called interfaces in other languages, although with some differences.
