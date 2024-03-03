@@ -127,3 +127,47 @@ other types. We can use traits to define shared behavior in an abstract
 way. We can use *trait bounds* to specify ttat a generic type can be any
 type that has certain behaviou. Traits are similar to a feature often
 called interfaces in other languages, although with some differences.
+
+## Lifetimes
+
+Lifetimes are another kind of generic. Lifetimes ensure that references
+are valid as long as we need them to be. Every reference in Rust has a
+lifetime, which is the scope for which that reference is valid. Most of
+the time, lifetimes are implicit and inferred, just like most of the
+time, types are inferred. We must annotate types only when multiple
+types are possible. In a similar way, we must annotate lifetimes when
+the lifetimes of references could be related in a few different ways.
+Rust requires us to annotate the relationships using generic lifetime
+parameters to ensure the actual references used at runtime will
+definitely be valid.
+
+### Lifetime Annotation Syntax
+
+Lifetime annotations don't change how long any of the references live.
+Rather, they descive the relationships of the lifetimes of multiple
+references to each other without affecting the lifetimes. Just as
+functions can accept any type when the signature specifies a generic
+type parameter, functions can accept references with any lifetime by
+speicifying a generic lifetime parameter.
+
+### Generic Type Parameters, Trait Bounds, and Lifetimes Together
+
+``` rust
+use std::fmt::Display;
+
+fn longest_with_an_announcement<'s, T>(
+    x: &'a str,
+    y: &'a str,
+    ann: T,
+) -> &'a str
+where
+    T: Display,
+{
+    println!("Announcement! {ann}");
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+```
