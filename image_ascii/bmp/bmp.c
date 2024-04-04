@@ -88,7 +88,7 @@ int open_bmp_file(char file_name[]) {
     fseek(fp, offset, SEEK_SET);
 
     char **pxmap = (char**) malloc(height*sizeof(char*));
-    for(int i=0; i < height; i++)
+    for(int i = 0; i < height; i++)
         pxmap[i] = (char*) malloc(width*sizeof(char));
 
     fread(pxmap, head.height * head.width * 4, 1, fp);
@@ -111,6 +111,10 @@ int open_bmp_file(char file_name[]) {
         printf("\n");
     }
     
+    // free up pxmap
+    for(int i = 0; i < height; i++)
+        free(pxmap[i]);
+    free(pxmap);
 
     fclose(fp);
 }
