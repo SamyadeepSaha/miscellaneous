@@ -177,3 +177,22 @@ library's public API to test the code in the same way external code will
 use it. Even though Rust's type system and ownership rules help prevent
 some kinds of bugs, tests are still important to reduce logic bugs
 having to do with how your code is expected to behave.
+
+## Closure
+
+Rust's closures are anonymous funcitons you can save in a variable or
+pass as arguments to other functions. You can create the closure in one
+place and then call the closure elsewhere to evaluate it in a different
+context. Unlike functions, closures can capture values from the scope in
+which they're defined. We'll demonstrate how these closure features
+allow for code reuse and behavior customization.
+
+There are more differences between functions and closures. Closures
+don't usually require you to annotate the types of parameters or the
+return value like fn functions do. Type annotations are required on
+functions because the types are part of an explicit interface exposed to
+your users. Defining this interface rigidly is important fo ensuring
+that everyone agrees on what types of values a function uses and
+returns. Closures, on the other hand, aren't used in an exposed
+interface like this: they're stored in variables and used without naming
+them and exposing them to users of our library.
