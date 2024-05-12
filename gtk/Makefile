@@ -1,8 +1,8 @@
 # Makefile
 
 # Just edit filename before make
-BIN = calc
-SRC = calc.c
+BIN = gtktest
+SRC = gtktest.c
 
 # Complier
 CC = gcc
