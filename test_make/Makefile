@@ -12,3 +12,6 @@ main.o: main.c
 
 lib.o: lib.c
 	${CC} ${CFLAGS} -o lib.o -c lib.c
+
+clean:
+	rm -f prog main.o lib.o
