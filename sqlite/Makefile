@@ -4,9 +4,10 @@
 CC = gcc
 
 # C flags
-CFLAGS = -Wall -lsqlite3 -std=c99
+CFLAGS = -Wall -std=c99
+LIBS = -lsqlite3
 
-all:
+all: retrieve
 	@echo "Select a target"
 
 version: version.c
@@ -17,6 +18,9 @@ version2: version2.c
 
 insert_data: insert_data.c
 	${CC} -o $@ $< ${CFLAGS}
+
+retrieve: retrieve.c
+	${CC} ${CFLAGS} -o $@ $< ${LIBS}
 
 last_row_id: last_row_id.c
 	${CC} -o $@ $< ${CFLAGS}
