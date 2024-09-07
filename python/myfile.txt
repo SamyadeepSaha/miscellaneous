@@ -1,0 +1,4 @@
+Python file handling refers to the process of working with
+files on the filesystem. It involves operations such as reading
+from files, writing to files, appending data, and managing file
+pointers.
